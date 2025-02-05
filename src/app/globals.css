@@ -1,21 +1,55 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+ 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff;  /* Light background */
+  --foreground: #4ade80;  /* Light foreground */ 
+  --border-dark: rgba(74, 222, 128, 0.3);  /* Dark border */
+  --border-light: rgba(74, 222, 128, 1);  /* Light border */
+  --border-default: rgba(74, 222, 128, 0.3);  
+  --border-hover: rgba(74, 222, 128, 1); 
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #000000;  /* Dark background */
+  --foreground: #4ade80;  /* Dark foreground */
+  --border-default: rgba(74, 222, 128, 0.3);  
+  --border-hover: rgba(74, 222, 128, 1); 
+  --border-dark: rgba(74, 222, 128, 0.3);  /* Dark border */
+  --border-light: rgba(74, 222, 128, 1);  /* Light border */
 }
-
+ 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
+ 
+html {
+  @apply dark:bg-black dark:text-green-400;  /* Apply dark theme styles */
+} 
+
+.border {
+  border-width: 1px;
+  border-color: var(--border-default);
+  transition: border-color 0.3s ease;
+}
+
+.border:hover {
+  border-color: var(--border-hover);
+}
+
+.border-b {
+  border-bottom-width: 1px;
+  border-bottom-color: var(--border-default);
+  transition: border-bottom-color 0.3s ease;
+}
+
+.dark .border-b {
+  border-bottom-color: var(--border-dark);
+} 
+
+.border:hover {
+  border-color: var(--border-hover);
+} 

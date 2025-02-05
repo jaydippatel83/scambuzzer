@@ -6,8 +6,7 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-       
+    extend: { 
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -18,10 +17,9 @@ export default {
           600: '#16a34a',
           700: '#15803d',
         },
-        border: {
-          DEFAULT: '#4ade80', 
-          dark: '#4ade80', 
-          light: '#d1d5db', 
+        border: { 
+          dark: 'var(--border-dark)',
+          light: 'var(--border-light)', 
         },
       },
     },
