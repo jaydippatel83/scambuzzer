@@ -53,3 +53,16 @@ html {
 .border:hover {
   border-color: var(--border-hover);
 } 
+  
+
+@media (min-width: 991px) {
+  .section-padding {
+    padding: 10rem 0;
+  } 
+}
+
+@layer utilities {
+  .section-padding {
+    padding: 6rem 0;
+  } 
+}
