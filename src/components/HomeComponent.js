@@ -3,10 +3,10 @@ export default function HomeComponent() {
       <div className="container mx-auto max-w-5xl section-padding">
         <div className="flex flex-col items-center justify-center text-foreground transition duration-3">  
 
-        <h1 className="text-2xl md:text-3xl font-bold text-center">
+        <h1 className="text-3xl lg:text-4xl font-bold text-center">
           Create an Agent that Detects, Alerts, and Protects Crypto Users from Scams!
         </h1>
-        <p className="text-lg text-center mt-2 text-red-600">
+        <p className="text-xl text-center mt-2 text-red-600">
           No more: Phishing, Social impersonation, and transactions with Scam Contracts!
         </p>
    
@@ -16,7 +16,7 @@ export default function HomeComponent() {
             <p className="mb-4">
               Protect and secure your brand by creating a commando agent at ScamBuzzer that stops your community from getting scammed.
             </p>
-            <button className="border border-border-light px-6 py-2 rounded-md hover:bg-border-hover hover:text-black transition">
+            <button className="px-4 py-2 text-sm text-foreground dark:text-green-300 border border-transparent rounded-md dark:hover:bg-green-400/10 transition-colors hover:bg-green-400/10">
               Create Agent
             </button>
           </div>
