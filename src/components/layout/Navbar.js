@@ -15,8 +15,8 @@ const Navbar = () => {
 
       <div className="flex items-center space-x-4">
         {ready && authenticated ? <button className="text-xl font-mono text-foreground dark:text-green-300 cursor-pointer hover:opacity-80 transition" onClick={async () => logout()}>{user?.twitter.name}</button> : <button className="px-4 py-2 text-sm text-foreground dark:text-green-300 border border-transparent rounded-md dark:hover:bg-green-400/10 transition-colors hover:bg-green-400/10" onClick={async () => {
-          await login();
-          // redirect to dashboard
+            await login();
+            // redirect to dashboard
 
         }}>
           Create Agent
