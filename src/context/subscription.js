@@ -2,10 +2,8 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { ethers } from "ethers";
-
-// Import the contract's ABI
 import { abi } from "../abi/ScamBuzzer";
-import { usePrivy, useActiveWallet } from "@privy-io/react-auth";
+import { usePrivy, useActiveWallet } from "@privy-io/react-auth"; 
 
 const SubscriptionContext = createContext();
 
@@ -18,8 +16,7 @@ export const SubscriptionProvider = ({ children }) => {
     const [isActive, setIsActive] = useState(false);
     const [contract, setContract] = useState(null);
     const { user } = usePrivy();
-    const { wallets} = useActiveWallet();
-
+    const { wallet} = useActiveWallet(); 
 
 
     const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE;
@@ -30,15 +27,11 @@ export const SubscriptionProvider = ({ children }) => {
 
 
 
-        console.log(wallets, "")
+        console.log(wallet, "wallet")
         if (user) {
-            const wallet = user?.linkedAccounts[1];
-
+            const wallet = user?.linkedAccounts[1]?.address; 
             try {
-
-
-
-
+ 
                 const provider = await wallet.getEthereumProvider();
                 const ethersProvider = new ethers.BrowserProvider(provider);
                 const signer = ethersProvider.getSigner();

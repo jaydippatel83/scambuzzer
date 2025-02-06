@@ -11,9 +11,11 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@privy-io/react-auth": "^2.2.1",
+    "ethers": "^6.13.5",
     "next": "15.1.6",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "use-sync-external-store": "^1.4.0"
   },
   "devDependencies": {
     "postcss": "^8",
