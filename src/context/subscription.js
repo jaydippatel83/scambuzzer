@@ -56,7 +56,7 @@ export const SubscriptionProvider = ({ children }) => {
         if (!contract) return;
         try {
             const tx = await contract.purchaseSubscription({
-                value: ethers.utils.parseEther("0.01"), // Price as per contract
+                value: ethers.parseEther("0.01"), // Price as per contract
             });
             await tx.wait();
             console.log("Subscription purchased successfully!");
