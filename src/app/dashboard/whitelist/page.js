@@ -1,9 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import Layout from '../../../components/layout/Layout';
-import DashboardLayout from '../../../components/DashboardLayout';
-import axios from 'axios';
+import DashboardLayout from '../../../components/DashboardLayout';  
 import WhitelistList from '../../../components/whitelist/WhitelistList';
+import axios from 'axios';
 
 const Whitelist = () => {
     const [formData, setFormData] = useState({ xHandle: '', telegram: '', website: '', contractAddress: '' });
