@@ -2,15 +2,19 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const SidebarComponent = () => {
+const SidebarComponent = ({label}) => {
   const pathname = usePathname();
 
-  const menuItems = [
+  const menuItems = label === 'dashboard' ? [
     { name: 'Whitelist', path: '/dashboard/whitelist' },
     { name: 'Commando Scan', path: '/dashboard/commando-scan' },
     { name: 'Flag Report', path: '/dashboard/flag-report' },
     { name: 'Subscription', path: '/dashboard/subscription' },
     { name: 'API Middleware', path: '/dashboard/middleware' },
+  ] : [
+    { name: 'Report & Contribute', path: '/dashboard/reports' },
+    { name: 'Points', path: '/dashboard/points' },
+    { name: 'Leaderboard', path: '/dashboard/leaderboard' },
   ];
 
   return (
