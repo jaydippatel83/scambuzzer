@@ -17,12 +17,8 @@ export default function Providers({ children }) {
           createOnLogin: 'users-without-wallets',
         },
       }}
-    >
-     
-        {children}
-      
-
-
+    > 
+        {children} 
     </PrivyProvider>
   );
 } 

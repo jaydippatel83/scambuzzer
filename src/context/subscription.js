@@ -19,14 +19,8 @@ export const SubscriptionProvider = ({ children }) => {
     const { wallet} = useActiveWallet(); 
 
 
-    const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE;
-
-
-    // Connect to MetaMask and set the contract
-    const connectWallet = async () => {
-
-
-
+    const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE; 
+    const connectWallet = async () => { 
         console.log(wallet, "wallet")
         if (user) {
             const wallet = user?.linkedAccounts[1]?.address; 
