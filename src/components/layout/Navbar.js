@@ -4,7 +4,7 @@ import ThemeToggle from "../../app/ThemeProvider";
 
 const Navbar = () => {
   return (
-    <header className="flex items-center justify-between px-6 py-4 border-b bg-background  dark:bg-black dark:border-border-dark"> 
+    <header className="flex items-center justify-between px-6 py-4 border-b bg-background  dark:bg-black dark:border-border-dark sticky top-0"> 
       <Link href="/" className="text-xl font-mono text-foreground dark:text-green-300 cursor-pointer hover:opacity-80 transition">
          <Image src="/assets/logo.png" alt="scambuzzer" width={180} height={38} />
       </Link>

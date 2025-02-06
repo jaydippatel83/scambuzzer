@@ -6,6 +6,7 @@ const FlagReport = () => {
   return (
     <Layout>
        <DashboardLayout>
+       <div className=" border-2 border-green-500 p-10 rounded-md h-full">    
        <h1 className="text-3xl font-bold mb-4">Flag Report</h1>
       <table className="w-full border border-green-500 text-left">
         <thead className="border-b border-green-500">
@@ -26,8 +27,24 @@ const FlagReport = () => {
             <td className="p-2">Phishing URL</td>
             <td className="p-2">scamwebsite.com</td>
           </tr>
+          <tr className="border-b border-green-500">
+            <td className="p-2">10PM UTC: 25 Jan 2025</td>
+            <td className="p-2">Phishing URL</td>
+            <td className="p-2">scamwebsite.com</td>
+          </tr>
+          <tr className="border-b border-green-500">
+            <td className="p-2">10PM UTC: 25 Jan 2025</td>
+            <td className="p-2">Phishing URL</td>
+            <td className="p-2">scamwebsite.com</td>
+          </tr>
+          <tr className="border-b border-green-500">
+            <td className="p-2">10PM UTC: 25 Jan 2025</td>
+            <td className="p-2">Phishing URL</td>
+            <td className="p-2">scamwebsite.com</td>
+          </tr>
         </tbody>
       </table>
+      </div>
        </DashboardLayout>
     </Layout>
   );

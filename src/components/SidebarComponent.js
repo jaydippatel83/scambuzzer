@@ -14,10 +14,11 @@ const SidebarComponent = () => {
   ];
 
   return (
-    <div className="w-64 h-screen bg-background text-foreground flex flex-col p-4 border-r border-green-500"> 
+    <div className="w-64 h-screen bg-background text-foreground flex flex-col p-4  pt-10"> 
+        
       {menuItems.map((item, index) => (
-        <Link key={index} href={item.path} passHref>
-          <div  className={`p-4 border rounded-md cursor-pointer my-2 ${
+        <Link key={index} href={item.path} passHref >
+          <div  className={`p-4 border rounded-md cursor-pointer my-3 ${
                 pathname === item.path ? 'bg-green-600 text-black' : 'border-green-500'
             } hover:bg-green-500 hover:text-black transition`}
           >
