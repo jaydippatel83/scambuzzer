@@ -1,4 +1,4 @@
-import connectToDatabase from '@/lib/mongodb';
+import connectToDatabase from '@/app/lib/mongodb';
 import Whitelist from '@/models/Whitelist';
 import { NextResponse } from 'next/server';
 

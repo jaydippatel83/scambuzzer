@@ -1,6 +1,6 @@
  
-import connectToDatabase from '../../../lib/mongodb';
-import Whitelist from '../../../models/Whitelist';
+import connectToDatabase from '@/app/lib/mongodb';
+import Whitelist from '@/models/Whitelist'; 
 
 export async function GET(req, res) {
   const { id } = req.query;

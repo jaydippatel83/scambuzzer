@@ -3,7 +3,7 @@ import { usePrivy } from '@privy-io/react-auth';
 import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { generateUserData } from '../../lib/utils';
+import { generateUserData } from '../../app/lib/utils';
 
 const UserInfo = ({ user }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
