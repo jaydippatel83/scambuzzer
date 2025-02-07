@@ -1,9 +1,10 @@
-"use client";
-
+"use client"; 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { abi } from "../abi/ScamBuzzer";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const SubscriptionContext = createContext();
 
@@ -12,27 +13,22 @@ export const useSubscription = () => {
 };
 
 export const SubscriptionProvider = ({ children }) => {
+    const router = useRouter();
     const [account, setAccount] = useState(null);
     const [isActive, setIsActive] = useState(false);
     const [contract, setContract] = useState(null);
-    const { ready, authenticated, user } = usePrivy();
-    const { wallets } = useWallets();
-
-
+    const [loading, setLoading] = useState(false);
+    const { authenticated, user } = usePrivy();
+    const { wallets, ready } = useWallets();
 
     const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE;
-    const connectWallet = async () => {
 
 
-        console.log(wallets, "wallets")
+    const connectWallet = async () => { 
         if (ready && authenticated && wallets.length > 0) {
-            // Get the embedded wallet
-            const embeddedWallet = wallets.find(wallet => wallet.walletClientType === 'privy');
-           
-            if (embeddedWallet) {
-                console.log(embeddedWallet, "embeddedWallet")
-                try {
-
+            const embeddedWallet = wallets.find(wallet => wallet.walletClientType === 'privy');  
+            if (embeddedWallet) { 
+                try { 
                     const provider = await embeddedWallet.getEthereumProvider();
                     const ethersProvider = new ethers.BrowserProvider(provider);
                     const signer = ethersProvider.getSigner();
@@ -40,64 +36,68 @@ export const SubscriptionProvider = ({ children }) => {
                         CONTRACT_ADDRESS,
                         abi,
                         signer
-                    );
-                    console.log(scamBuzzerContract, "scamBuzzerContract")
+                    );  
                     setContract(scamBuzzerContract);
-                } catch (error) {
-
+                } catch (error) { 
                     console.error("Wallet connection failed:", error);
                 }
-
             }
             else {
                 console.error("Wallet not found");
             }
-        }
-
-
+        } else {
+           router.push("/");
+        } 
     };
 
     // Purchase Subscription NFT
     const purchaseSubscription = async () => {
+        setLoading(true);
         if (!contract) return;
         try {
             const tx = await contract.purchaseSubscription({
                 value: ethers.parseEther("0.01"), // Price as per contract
             });
             await tx.wait();
-            console.log("Subscription purchased successfully!");
-            checkSubscriptionStatus(); // Update subscription status after purchase
+            toast.success("Subscription purchased successfully!");
+            checkSubscriptionStatus();  
         } catch (error) {
-            console.error("Subscription purchase failed:", error);
+            toast.error("Subscription purchase failed:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
     // Check if the current user's subscription is active
     const checkSubscriptionStatus = async () => {
         if (!contract || !account) return;
+        setLoading(true);
         try {
             const active = await contract.isSubscriptionActive(account);
             setIsActive(active);
         } catch (error) {
-            console.error("Failed to check subscription status:", error);
+            toast.error("Failed to check subscription status:", error);
+        } finally {
+            setLoading(false);
         }
     };
-
+    
     useEffect(() => {
         connectWallet();
-    }, [user]);
+    }, [user, ready, authenticated, wallets]);
 
     useEffect(() => {
         if (account && contract) {
             checkSubscriptionStatus();
         }
-    }, [account, contract]);
+    }, [account, contract, ready, authenticated, wallets]);
 
     return (
         <SubscriptionContext.Provider
             value={{
                 account,
                 isActive,
+                loading,
                 purchaseSubscription,
                 checkSubscriptionStatus,
             }}
