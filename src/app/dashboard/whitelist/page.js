@@ -40,8 +40,7 @@ const Whitelist = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    console.log("Attempting to delete ID:", id);
+  const handleDelete = async (id) => { 
     try {
         await axios.post(`/api/whitelist/${id}`,{id});
         fetchEntries();
@@ -60,16 +59,16 @@ const Whitelist = () => {
                         <h1 className="text-3xl font-bold mb-4">Whitelist URLs and Contracts</h1>
                         <div className="w-full max-w-md  p-6 rounded-md">
                             <label className="block mb-2">@X Handle</label>
-                            <input type="text" name="xHandle" value={formData.xHandle} onChange={handleChange} className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                            <input required type="text" name="xHandle" value={formData.xHandle} onChange={handleChange} className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500" />
 
                             <label className="block mb-2">@Telegram</label>
-                                <input type="text" name="telegram" value={formData.telegram} onChange={handleChange} className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                                <input required type="text" name="telegram" value={formData.telegram} onChange={handleChange} className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500" />
 
                             <label className="block mb-2">Official Website</label>
-                            <input type="text" name="website" value={formData.website} onChange={handleChange} className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500    " />
+                            <input  type="text" name="website" value={formData.website} onChange={handleChange} className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500    " />
 
                             <label className="block mb-2">Contract Address</label>
-                            <input type="text" name="contractAddress" value={formData.contractAddress} onChange={handleChange}  className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                            <input  type="text" name="contractAddress" value={formData.contractAddress} onChange={handleChange}  className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500" />
 
                             <button type="submit" className="w-full p-3 bg-green-600 text-black font-bold rounded">Submit</button>
                         </div>
