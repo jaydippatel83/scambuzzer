@@ -2,7 +2,7 @@ import React from 'react';
 
 const Pointtable = () => {
   return (
-    <div className=" border-2 border-green-500 p-10 rounded-md h-full">    
+    <div className=" border border-green-500 p-10 rounded-md h-full">    
     <h1 className="text-3xl font-bold mb-4">Flag Report</h1>
    <table className="w-full border border-green-500 text-left">
      <thead className="border-b border-green-500">

@@ -54,7 +54,7 @@ const Whitelist = () => {
     return (
         <Layout>
             <DashboardLayout> 
-                    <div className="flex flex-col items-center justify-center border-2 border-green-500 py-10 rounded-md h-full">
+                    <div className="flex flex-col items-center justify-center border border-green-500 py-10 rounded-md h-full">
                         <form onSubmit={handleSubmit}>
                         <h1 className="text-3xl font-bold mb-4">Whitelist URLs and Contracts</h1>
                         <div className="w-full max-w-md  p-6 rounded-md">

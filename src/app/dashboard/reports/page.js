@@ -7,7 +7,7 @@ const Reports = () => {
   return (
     <Layout>
        <ReportLayout>
-       <div className=" text-center border-2 border-green-500 py-10 rounded-md h-full ">
+       <div className=" text-center border border-green-500 py-10 rounded-md h-full ">
         <ReportContribute />
       </div>
        </ReportLayout>
