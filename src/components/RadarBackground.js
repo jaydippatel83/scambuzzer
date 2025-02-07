@@ -84,12 +84,12 @@ const RadarBackground = () => {
     drawRadar();
   }, []);
 
-  return (
+  return (  
     <canvas
       ref={radarRef}
       width={400}
       height={400}
-      className="fixed top-0 left-0 w-full h-full opacity-20 z-0 pointer-events-none" // Added pointer-events-none to make it non-clickable
+      className="mx-auto w-full max-w-3xl h-full opacity-25 z-0 pointer-events-none absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" 
     />
   );
 };

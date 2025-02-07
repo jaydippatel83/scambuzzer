@@ -1,6 +1,7 @@
 "use client"; 
 import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from "next/navigation";
+import RadarBackground from './RadarBackground';
 
 export default function HomeComponent() {
   const { ready, authenticated, login, user } = usePrivy();
@@ -16,7 +17,8 @@ export default function HomeComponent() {
   }
 
   return (
-    <div className="container mx-auto max-w-5xl section-padding">
+    <div className="container mx-auto max-w-5xl section-padding relative">
+        <RadarBackground />
       <div className="flex flex-col items-center justify-center text-foreground transition duration-3">
 
         <h1 className="text-3xl lg:text-4xl font-bold text-center">
