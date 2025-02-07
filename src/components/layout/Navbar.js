@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import ThemeToggle from "../../app/ThemeProvider";
+// import ThemeToggle from "../../app/ThemeProvider";
 import { usePrivy } from '@privy-io/react-auth';
 import UserInfo from "../profile/UserInfo";
+import { toast } from 'react-hot-toast';
 
 const Navbar = () => {
     const { ready, authenticated, login, user } = usePrivy();
@@ -19,6 +20,8 @@ const Navbar = () => {
                 {
                     !authenticated ? <button className="px-4 py-2 text-sm text-foreground dark:text-green-300 border border-transparent rounded-md dark:hover:bg-green-400/10 transition-colors hover:bg-green-400/10" onClick={async () => {
                         await login();
+                        toast.success('Logged in successfully');
+
                     }}>
                         Create Agent
                     </button> :

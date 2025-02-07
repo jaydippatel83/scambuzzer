@@ -4,6 +4,7 @@ import Layout from '../../../components/layout/Layout';
 import DashboardLayout from '../../../components/DashboardLayout';  
 import WhitelistList from '../../../components/whitelist/WhitelistList';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Whitelist = () => {
     const [formData, setFormData] = useState({ xHandle: '', telegram: '', website: '', contractAddress: '' });
@@ -32,17 +33,22 @@ const Whitelist = () => {
         await axios.post('/api/whitelist', formData);
         fetchEntries();
         setFormData({ xHandle: '', telegram: '', website: '', contractAddress: '' });
+        toast.success('Entry added successfully');
     } catch (error) {
         console.error("Error submitting form:", error);
+        toast.error('Error submitting form');
     }
   };
 
   const handleDelete = async (id) => {
+    console.log("Attempting to delete ID:", id);
     try {
-        await axios.delete(`/api/whitelist/${id}`);
+        await axios.post(`/api/whitelist/${id}`,{id});
         fetchEntries();
+        toast.success('Entry deleted successfully');
     } catch (error) {
         console.error("Error deleting entry:", error);
+        toast.error('Error deleting entry');
     }
   };
 
