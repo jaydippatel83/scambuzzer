@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { abi } from "../abi/ScamBuzzer";
-import { usePrivy, useActiveWallet } from "@privy-io/react-auth"; 
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 
 const SubscriptionContext = createContext();
 
@@ -15,34 +15,46 @@ export const SubscriptionProvider = ({ children }) => {
     const [account, setAccount] = useState(null);
     const [isActive, setIsActive] = useState(false);
     const [contract, setContract] = useState(null);
-    const { user } = usePrivy();
-    const { wallet} = useActiveWallet(); 
+    const { ready, authenticated, user } = usePrivy();
+    const { wallets } = useWallets();
 
 
-    const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE; 
-    const connectWallet = async () => { 
-        console.log(wallet, "wallet")
-        if (user) {
-            const wallet = user?.linkedAccounts[1]?.address; 
-            try {
- 
-                const provider = await wallet.getEthereumProvider();
-                const ethersProvider = new ethers.BrowserProvider(provider);
-                const signer = ethersProvider.getSigner();
-                const scamBuzzerContract = new ethers.Contract(
-                    CONTRACT_ADDRESS,
-                    abi,
-                    signer
-                );
-                console.log(scamBuzzerContract, "scamBuzzerContract")
-                setContract(scamBuzzerContract);
-            } catch (error) {
 
-                console.error("Wallet connection failed:", error);
+    const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE;
+    const connectWallet = async () => {
+
+
+        console.log(wallets, "wallets")
+        if (ready && authenticated && wallets.length > 0) {
+            // Get the embedded wallet
+            const embeddedWallet = wallets.find(wallet => wallet.walletClientType === 'privy');
+           
+            if (embeddedWallet) {
+                console.log(embeddedWallet, "embeddedWallet")
+                try {
+
+                    const provider = await embeddedWallet.getEthereumProvider();
+                    const ethersProvider = new ethers.BrowserProvider(provider);
+                    const signer = ethersProvider.getSigner();
+                    const scamBuzzerContract = new ethers.Contract(
+                        CONTRACT_ADDRESS,
+                        abi,
+                        signer
+                    );
+                    console.log(scamBuzzerContract, "scamBuzzerContract")
+                    setContract(scamBuzzerContract);
+                } catch (error) {
+
+                    console.error("Wallet connection failed:", error);
+                }
+
             }
-        } else {
-            console.error("Wallet not found");
+            else {
+                console.error("Wallet not found");
+            }
         }
+
+
     };
 
     // Purchase Subscription NFT
