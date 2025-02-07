@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { abi } from "../abi/ScamBuzzer";
-import { usePrivy, useActiveWallet } from "@privy-io/react-auth"; 
+import { usePrivy, useWallets } from "@privy-io/react-auth"; 
 
 const SubscriptionContext = createContext();
 
@@ -15,39 +15,37 @@ export const SubscriptionProvider = ({ children }) => {
     const [account, setAccount] = useState(null);
     const [isActive, setIsActive] = useState(false);
     const [contract, setContract] = useState(null);
-    const { user } = usePrivy();
-    const { wallet} = useActiveWallet(); 
-
-
-    const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE;
-
-
-    // Connect to MetaMask and set the contract
-    const connectWallet = async () => {
-
-
-
-        console.log(wallet, "wallet")
-        if (user) {
-            const wallet = user?.linkedAccounts[1]?.address; 
-            try {
+    const { user } = usePrivy();  
+    const {ready, wallets} = useWallets();
+    console.log(user, "user"); 
+    console.log(ready, "ready");
+    console.log(wallets, "wallet");
  
-                const provider = await wallet.getEthereumProvider();
-                const ethersProvider = new ethers.BrowserProvider(provider);
-                const signer = ethersProvider.getSigner();
-                const scamBuzzerContract = new ethers.Contract(
-                    CONTRACT_ADDRESS,
-                    abi,
-                    signer
-                );
-                console.log(scamBuzzerContract, "scamBuzzerContract")
-                setContract(scamBuzzerContract);
-            } catch (error) {
 
-                console.error("Wallet connection failed:", error);
+    const connectWallet = async () => {  
+        if (user) {
+            const walletAddress = user?.linkedAccounts[0]?.address; 
+            if (walletAddress) {
+                setAccount(walletAddress); // Set account from user
+                try {
+                    const provider = await wallets[0].getEthereumProvider();
+                    const ethersProvider = new ethers.BrowserProvider(provider);
+                    const signer = ethers.BrowserProvider(provider).getSigner();
+                    const scamBuzzerContract = new ethers.Contract(
+                        CONTRACT_ADDRESS,
+                        abi,
+                        signer
+                    );
+                    console.log(scamBuzzerContract, "scamBuzzerContract")
+                    setContract(scamBuzzerContract);
+                } catch (error) {
+                    console.error("Wallet connection failed:", error);
+                }
+            } else {
+                console.error("No linked accounts found for user");
             }
         } else {
-            console.error("Wallet not found");
+            console.error("User not found");
         }
     };
 
@@ -56,7 +54,7 @@ export const SubscriptionProvider = ({ children }) => {
         if (!contract) return;
         try {
             const tx = await contract.purchaseSubscription({
-                value: ethers.utils.parseEther("0.01"), // Price as per contract
+                value: ethers.parseEther("0.01"), // Price as per contract
             });
             await tx.wait();
             console.log("Subscription purchased successfully!");
@@ -79,7 +77,7 @@ export const SubscriptionProvider = ({ children }) => {
 
     useEffect(() => {
         connectWallet();
-    }, [user]);
+    }, [user, wallets, ready ]);
 
     useEffect(() => {
         if (account && contract) {

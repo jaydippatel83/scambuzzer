@@ -10,10 +10,9 @@ export default function HomeComponent() {
   async function createAggent() {
     if (ready && authenticated && user) {
       router.push("/dashboard/subscription");
-    } else {
-      // Login or create account  
+    } else { 
       await login();
-
+      router.push("/dashboard/subscription");
     }
   }
 

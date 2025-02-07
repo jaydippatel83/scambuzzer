@@ -13,15 +13,21 @@ export default function Providers({ children }) {
           accentColor: '#676FFF',
           logo: '/assets/logo.png',
         },
-        embeddedWallets: {
-          createOnLogin: 'users-without-wallets',
-        },
+        externalWallets: { 
+          coinbaseWallet: { 
+              connectionOptions: 'smartWalletOnly',
+          }, 
+          metaMask: { 
+            connectionOptions: 'smartWalletOnly',
+          },
+          injected: { 
+            connectionOptions: 'smartWalletOnly',
+          },
+      },
+        embeddedWallets: {createOnLogin: 'users-without-wallets'}
       }}
-    >
-     
-        {children}
-      
-
+    > 
+        {children} 
 
     </PrivyProvider>
   );
