@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className="min-h-screen dark:bg-black text-gray-900 dark:text-green-400 relative"> 
         {/* <MatrixBackground /> */}
-        <RadarBackground />
+        {/* <RadarBackground /> */}
         <Providers>
           <SubscriptionProvider> 
           {children}
