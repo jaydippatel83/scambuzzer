@@ -21,6 +21,8 @@ export const SubscriptionProvider = ({ children }) => {
     const { authenticated, user } = usePrivy();
     const { wallets, ready } = useWallets();
 
+    console.log(user, "user");
+
     const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE;
 
 

@@ -1,16 +1,46 @@
 'use client';
+import { usePrivy } from '@privy-io/react-auth';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { generateUserData } from '../../app/lib/utils';
+import axios from 'axios';
 
 const ReportContribute = () => {
+  const { user } =  usePrivy();
   const [link, setLink] = useState('');
   const [type, setType] = useState('Phishing');
   const [targeting, setTargeting] = useState('X');
+  const userData = generateUserData(user);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    if (!link || !type || !targeting) {
+        toast.error('Please fill in all fields');
+        return;
+    }
+    const report = {
+        link,
+        type,
+        targeting,
+        user:{
+          wallet: userData.wallet,
+          username: userData.username,
+          profilePicture: userData.profilePicture,
+        },
+    }
     e.preventDefault();
-    console.log({ link, type, targeting });
-    // Handle form submission logic
-  };
+    try {
+        await axios.post('/api/reports', report);
+        toast.success('Report added successfully');
+        setLink('');
+        setType('Phishing');
+        setTargeting('X');
+    } catch (error) {
+        console.error("Error submitting form:", error); 
+        toast.error('Error submitting form');
+    }
+};
+
+ 
 
   return (
     <form onSubmit={handleSubmit} className=" p-8 rounded w-full max-w-3xl mx-auto">

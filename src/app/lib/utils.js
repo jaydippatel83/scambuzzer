@@ -1,11 +1,11 @@
 
 const formatWalletAddress = (address) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+    return `${address?.slice(0, 6)}...${address?.slice(-4)}`;
   };
 
  const getDisplayName = (user) => { 
-    const twitterProfile = user.linkedAccounts.find(acc => acc.type === 'twitter_oauth');
-    const walletProfile = user.linkedAccounts.find(acc => acc.type === 'wallet');
+    const twitterProfile = user?.linkedAccounts?.find(acc => acc.type === 'twitter_oauth');
+    const walletProfile = user?.linkedAccounts?.find(acc => acc.type === 'wallet');
   
     if (twitterProfile) {
       return twitterProfile.name || twitterProfile.username;
@@ -17,8 +17,8 @@ const formatWalletAddress = (address) => {
 
 
   const getProfileImage = (user) => { 
-    const twitterProfile = user.linkedAccounts.find(acc => acc.type === 'twitter_oauth');
-    const walletProfile = user.linkedAccounts.find(acc => acc.type === 'wallet'); 
+    const twitterProfile = user?.linkedAccounts?.find(acc => acc.type === 'twitter_oauth');
+    const walletProfile = user?.linkedAccounts?.find(acc => acc.type === 'wallet'); 
     if (twitterProfile) {
       return twitterProfile.profilePictureUrl || "https://content.cointopper.com/wp-content/uploads/2024/12/pfp.png";
     }  else if (walletProfile) {
@@ -32,7 +32,7 @@ const formatWalletAddress = (address) => {
     const displayName = getDisplayName(user); 
     const userData = {
       username: displayName,
-      wallet: user?.linkedAccounts[1]?.address || "",  
+      wallet: user?.linkedAccounts[0]?.address || "",  
       profilePicture: avatar || "",
     };
   
