@@ -1,10 +1,22 @@
-import React from 'react'; 
+'use client'
+import React, { useEffect, useState } from 'react'; 
 import Layout from '../../../components/layout/Layout';
-import DashboardLayout from '../../../components/DashboardLayout';
-import { getReports } from '../../lib/reports';
+import DashboardLayout from '../../../components/DashboardLayout'; 
+import axios from 'axios';
 
-const FlagReport = async () => {
-  const reports = await getReports(); 
+const FlagReport = () => {
+  const [reports, setReports] = useState([]);
+  useEffect(() => {
+    fetchReports();
+  }, []);
+  const fetchReports = async () => {
+    try {
+      const res = await axios.get('/api/reports');
+      setReports(res.data);
+    } catch (error) {
+      console.error("Error fetching reports:", error);
+    }
+  } 
   return (
     <Layout>
        <DashboardLayout>
@@ -22,7 +34,7 @@ const FlagReport = async () => {
         </thead>
         <tbody>
           {reports.map((report) => (
-          <tr className="border-b border-green-500">
+          <tr className="border-b border-green-500" key={report.id}>
             <td className="p-2">
               {new Date(report.createdAt).toLocaleString('en-GB', {
                 timeZone: 'UTC',
@@ -36,7 +48,7 @@ const FlagReport = async () => {
             </td>
             <td className="p-2">{report.type} {report.targeting}</td>
             <td className="p-2">{report.link}</td>
-            <td className="p-2 hidden md:block">{report.user.username}</td>
+            <td className="p-2 hidden md:block">{report?.user?.username}</td>
           </tr>
           ))}
         </tbody>

@@ -4,7 +4,7 @@ import Reports from '../../../models/Reports';
 
 export async function GET() {
   await connectToDatabase();
-  const entries = await Reports.find().populate('user');
+  const entries = await Reports.find().populate('user'); 
   return NextResponse.json(entries, { status: 200 });
 }
 
