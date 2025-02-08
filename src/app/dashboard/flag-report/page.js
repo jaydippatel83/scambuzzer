@@ -1,53 +1,52 @@
 import React from 'react'; 
 import Layout from '../../../components/layout/Layout';
 import DashboardLayout from '../../../components/DashboardLayout';
+import { getReports } from '../../lib/reports';
 
-const FlagReport = () => {
+const FlagReport = async () => {
+  const reports = await getReports(); 
   return (
     <Layout>
        <DashboardLayout>
-       <div className=" border border-green-500 p-10 rounded-md h-full">    
+       <div className="border border-green-500 p-10 rounded-md h-full overflow-x-auto">    
        <h1 className="text-3xl font-bold mb-4">Flag Report</h1>
-      <table className="w-full border border-green-500 text-left">
-        <thead className="border-b border-green-500">
+      <div className="overflow-y-auto max-h-screen">
+      <table className="min-w-full border border-green-500 text-left">
+        <thead className="border-b border-green-500 sticky top-0 bg-background">
           <tr>
             <th className="p-2">Timestamp</th>
             <th className="p-2">Type</th>
             <th className="p-2">Flagged</th>
+            <th className="p-2 hidden md:block">User</th>
           </tr>
         </thead>
         <tbody>
+          {reports.map((report) => (
           <tr className="border-b border-green-500">
-            <td className="p-2">10PM UTC: 25 Jan 2025</td>
-            <td className="p-2">Impersonating X</td>
-            <td className="p-2">x.com/username</td>
+            <td className="p-2">
+              {new Date(report.createdAt).toLocaleString('en-GB', {
+                timeZone: 'UTC',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+              }).replace(',', ' UTC:')}
+            </td>
+            <td className="p-2">{report.type} {report.targeting}</td>
+            <td className="p-2">{report.link}</td>
+            <td className="p-2 hidden md:block">{report.user.username}</td>
           </tr>
-          <tr className="border-b border-green-500">
-            <td className="p-2">10PM UTC: 25 Jan 2025</td>
-            <td className="p-2">Phishing URL</td>
-            <td className="p-2">scamwebsite.com</td>
-          </tr>
-          <tr className="border-b border-green-500">
-            <td className="p-2">10PM UTC: 25 Jan 2025</td>
-            <td className="p-2">Phishing URL</td>
-            <td className="p-2">scamwebsite.com</td>
-          </tr>
-          <tr className="border-b border-green-500">
-            <td className="p-2">10PM UTC: 25 Jan 2025</td>
-            <td className="p-2">Phishing URL</td>
-            <td className="p-2">scamwebsite.com</td>
-          </tr>
-          <tr className="border-b border-green-500">
-            <td className="p-2">10PM UTC: 25 Jan 2025</td>
-            <td className="p-2">Phishing URL</td>
-            <td className="p-2">scamwebsite.com</td>
-          </tr>
+          ))}
         </tbody>
       </table>
       </div>
-       </DashboardLayout>
+      </div>
+        </DashboardLayout>
     </Layout>
   );
 };
+
 
 export default FlagReport;
