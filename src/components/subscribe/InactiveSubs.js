@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'; 
 import toast from 'react-hot-toast';
-import { useSubscription } from '../../context/subscription';
+import { useSubscription } from '../../context/subscription'; 
 
 const InactiveSubs = () => {  
     const { purchaseSubscription, checkSubscriptionStatus, loading } = useSubscription();
@@ -16,7 +16,7 @@ const InactiveSubs = () => {
         await purchaseSubscription();
         await checkSubscriptionStatus();
     };
-
+ 
     return (
         <div className="bg-background text-foreground w-full h-full border border-green-500 py-6 px-4 rounded-md">
             <div className="">

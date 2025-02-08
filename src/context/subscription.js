@@ -6,6 +6,7 @@ import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
+
 const SubscriptionContext = createContext();
 
 export const useSubscription = () => {
@@ -19,37 +20,36 @@ export const SubscriptionProvider = ({ children }) => {
     const [contract, setContract] = useState(null);
     const [loading, setLoading] = useState(false);
     const { authenticated, user } = usePrivy();
-    const { wallets, ready } = useWallets();
-
-    console.log(user, "user");
-
-    const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE;
+    const { wallets, ready } = useWallets(); 
 
 
-    const connectWallet = async () => { 
-        if (ready && authenticated && wallets.length > 0) {
-            const embeddedWallet = wallets.find(wallet => wallet.walletClientType === 'privy');  
-            if (embeddedWallet) { 
-                try { 
-                    const provider = await embeddedWallet.getEthereumProvider();
-                    const ethersProvider = new ethers.BrowserProvider(provider);
-                    const signer = ethersProvider.getSigner();
-                    const scamBuzzerContract = new ethers.Contract(
-                        CONTRACT_ADDRESS,
+    const connectWallet = async () => {
+        if (wallets.length > 0) {
+
+            const embeddedWallet = wallets.find((wallet) => wallet.walletClientType == "privy");
+
+            if (embeddedWallet) {
+                setAccount(embeddedWallet.address); // Set account from user
+                try {
+
+                    const privyProvider = await embeddedWallet.getEthereumProvider();
+                    const provider = new ethers.providers.Web3Provider(privyProvider);
+
+                    const signer = provider.getSigner();
+
+
+
+                    const scamBuzzerContract = await new ethers.Contract(
+                        process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS_BASE,
                         abi,
                         signer
-                    );  
+                    );
                     setContract(scamBuzzerContract);
-                } catch (error) { 
+                } catch (error) {
                     console.error("Wallet connection failed:", error);
                 }
             }
-            else {
-                console.error("Wallet not found");
-            }
-        } else {
-           router.push("/");
-        } 
+        }
     };
 
     // Purchase Subscription NFT
@@ -57,12 +57,12 @@ export const SubscriptionProvider = ({ children }) => {
         setLoading(true);
         if (!contract) return;
         try {
-            const tx = await contract.purchaseSubscription({
-                value: ethers.parseEther("0.01"), // Price as per contract
+            const tx = await contract.mintNFT("https://lime-passive-orca-378.mypinata.cloud/ipfs/bafybeifqecfjpwe3dwjfpypd5qwnlxw4vg7qvrpbvqtow7ysvg75pjh4si", {
+                value: ethers.utils.parseEther("0.01")
             });
             await tx.wait();
-            toast.success("Subscription purchased successfully!");
-            checkSubscriptionStatus();  
+            console.log("Subscription purchased successfully!");
+            checkSubscription();
         } catch (error) {
             toast.error("Subscription purchase failed:", error);
         } finally {
@@ -70,29 +70,31 @@ export const SubscriptionProvider = ({ children }) => {
         }
     };
 
-    // Check if the current user's subscription is active
-    const checkSubscriptionStatus = async () => {
-        if (!contract || !account) return;
-        setLoading(true);
+    const checkSubscription = async () => {
+        if (!contract) return;
         try {
-            const active = await contract.isSubscriptionActive(account);
-            setIsActive(active);
+            const balance = await contract.balanceOf(account);
+            if (balance.gt(0)) {
+                setIsActive(true);
+            } else {
+                setIsActive(false);
+            }
         } catch (error) {
-            toast.error("Failed to check subscription status:", error);
-        } finally {
-            setLoading(false);
+            console.error("Subscription purchase failed:", error);
         }
     };
-    
+
+
     useEffect(() => {
         connectWallet();
-    }, [user, ready, authenticated, wallets]);
+    }, [user, wallets, ready]);
 
     useEffect(() => {
         if (account && contract) {
-            checkSubscriptionStatus();
+        checkSubscription();
         }
     }, [account, contract, ready, authenticated, wallets]);
+
 
     return (
         <SubscriptionContext.Provider
@@ -101,7 +103,7 @@ export const SubscriptionProvider = ({ children }) => {
                 isActive,
                 loading,
                 purchaseSubscription,
-                checkSubscriptionStatus,
+
             }}
         >
             {children}

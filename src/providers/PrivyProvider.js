@@ -1,6 +1,6 @@
 'use client';
-import { PrivyProvider } from '@privy-io/react-auth';
-import {baseSepolia} from 'viem/chains';
+import { PrivyProvider } from '@privy-io/react-auth'; 
+import { baseSepolia } from 'viem/chains';
 
 
 export default function Providers({ children }) {
@@ -14,13 +14,24 @@ export default function Providers({ children }) {
           accentColor: '#676FFF',
           logo: '/assets/logo.png',
         },
-        embeddedWallets: {
-          createOnLogin: 'users-without-wallets',
+        externalWallets: {
+          coinbaseWallet: {
+            connectionOptions: 'smartWalletOnly',
+          },
+          metaMask: {
+            connectionOptions: 'smartWalletOnly',
+          },
+          injected: {
+            connectionOptions: 'smartWalletOnly',
+          },
         },
+        embeddedWallets: { createOnLogin: 'users-without-wallets' },
         defaultChain: baseSepolia,
+        supportedChains: [baseSepolia],
       }}
-    > 
-        {children} 
+    >
+      {children}
+
     </PrivyProvider>
   );
 } 
