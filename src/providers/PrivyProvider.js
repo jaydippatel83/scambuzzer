@@ -1,5 +1,7 @@
 'use client';
 import { PrivyProvider } from '@privy-io/react-auth';
+// Replace this with any of the networks listed at https://github.com/wevm/viem/blob/main/src/chains/index.ts
+import { baseSepolia } from 'viem/chains';
 
 
 export default function Providers({ children }) {
@@ -13,21 +15,23 @@ export default function Providers({ children }) {
           accentColor: '#676FFF',
           logo: '/assets/logo.png',
         },
-        externalWallets: { 
-          coinbaseWallet: { 
-              connectionOptions: 'smartWalletOnly',
-          }, 
-          metaMask: { 
+        externalWallets: {
+          coinbaseWallet: {
             connectionOptions: 'smartWalletOnly',
           },
-          injected: { 
+          metaMask: {
             connectionOptions: 'smartWalletOnly',
           },
-      },
-        embeddedWallets: {createOnLogin: 'users-without-wallets'}
+          injected: {
+            connectionOptions: 'smartWalletOnly',
+          },
+        },
+        embeddedWallets: { createOnLogin: 'users-without-wallets' },
+        defaultChain: baseSepolia,
+        supportedChains: [baseSepolia],
       }}
-    > 
-        {children} 
+    >
+      {children}
 
     </PrivyProvider>
   );

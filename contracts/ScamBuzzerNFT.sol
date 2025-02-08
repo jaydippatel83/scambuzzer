@@ -1,45 +1,29 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ScamBuzzerSubscriptionNFT is ERC721URIStorage, Ownable(msg.sender) {
     uint256 public nextTokenId;
-    uint256 public constant PRICE = 0.01 ether; // Price of the subscription NFT
-    string public baseURI;
+    uint256 public constant PRICE = 0.01 ether;  // Price to mint an NFT
 
-    mapping(address => bool) public hasActiveSubscription;
-    mapping(uint256 => uint256) public expirationTimestamp;
+    event NFTMinted(address indexed minter, uint256 tokenId);
 
-    event SubscriptionPurchased(address indexed subscriber, uint256 tokenId, uint256 expiration);
+    constructor() ERC721("ScamBuzzer", "SCB") {}
 
-    constructor(string memory _baseURI) ERC721("ScamBuzzer", "SBS") {
-        baseURI = _baseURI;
-    }
-
-    function _baseURI() internal view override returns (string memory) {
-        return baseURI;
-    }
-
-    function purchaseSubscription() external payable {
-        require(msg.value >= PRICE, "Insufficient payment");
-        require(!hasActiveSubscription[msg.sender], "Already subscribed");
+    // Function to mint an NFT by paying the specified price
+    function mintNFT(string memory tokenURI) external payable {
+        require(msg.value >= PRICE, "Insufficient payment to mint NFT");
 
         uint256 tokenId = nextTokenId++;
         _mint(msg.sender, tokenId);
-        _setTokenURI(tokenId, string(abi.encodePacked(baseURI, Strings.toString(tokenId), ".json")));
+        _setTokenURI(tokenId, tokenURI);
 
-        expirationTimestamp[tokenId] = block.timestamp + 365 days;
-        hasActiveSubscription[msg.sender] = true;
-
-        emit SubscriptionPurchased(msg.sender, tokenId, expirationTimestamp[tokenId]);
+        emit NFTMinted(msg.sender, tokenId);
     }
 
-    function isSubscriptionActive(address user) external view returns (bool) {
-        return hasActiveSubscription[user] && expirationTimestamp[nextTokenId - 1] > block.timestamp;
-    }
-
+    // Function to withdraw funds collected from minting
     function withdraw() external onlyOwner {
         payable(owner()).transfer(address(this).balance);
     }

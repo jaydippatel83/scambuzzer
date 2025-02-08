@@ -1,16 +1,19 @@
 'use client'
 import React, { useState } from 'react';
+import { useSubscription } from "../../context/subscription";
 
 const InactiveSubs = () => {
     const [selectedChain, setSelectedChain] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
+  const { purchaseSubscription } = useSubscription(); 
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (!selectedChain || !paymentMethod) {
       alert('Please select a chain and payment method.');
       return;
     }
-    alert(`Payment initiated for ${selectedChain} using ${paymentMethod}`);
+   await purchaseSubscription();
+    alert(`Purchased subscription successfully!`);
   };
 
   return (
@@ -28,9 +31,9 @@ const InactiveSubs = () => {
             onChange={(e) => setSelectedChain(e.target.value)}
           >
             <option value="" disabled>Select chain</option>
-            <option value="Ethereum">Ethereum</option>
-            <option value="Binance Smart Chain">Binance Smart Chain</option>
-            <option value="Polygon">Polygon</option>
+            <option value="base">Base</option>
+            <option value="arbitrum">Arbitrum</option>
+            <option value="polygon">Polygon</option>
           </select>
         </div>
 
