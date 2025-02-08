@@ -12,7 +12,7 @@ const formatWalletAddress = (address) => {
     }   else if (walletProfile) {
       return formatWalletAddress(walletProfile.address);
     }  
-    return formatWalletAddress(user?.email?.address);
+    return formatWalletAddress(user?.wallet?.address);
   };
 
 
@@ -27,14 +27,13 @@ const formatWalletAddress = (address) => {
     return "https://content.cointopper.com/wp-content/uploads/2024/12/pfp.png";
   };
 
-  export const generateUserData = (user) => {
+  export const generateUserData = (user) => { 
     const avatar = getProfileImage(user);
     const displayName = getDisplayName(user); 
     const userData = {
       username: displayName,
-      wallet: user?.linkedAccounts[0]?.address || "",  
+      wallet: user?.wallet?.address || "",  
       profilePicture: avatar || "",
-    };
-  
+    }; 
     return userData;
   };
