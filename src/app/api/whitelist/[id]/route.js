@@ -2,10 +2,14 @@ import connectToDatabase from '@/app/lib/mongodb';
 import Whitelist from '@/models/Whitelist'; 
 import { NextResponse } from 'next/server';  
 
-export async function POST(req) {
+export async function POST(req, { params }) {
+  const { id } = params;
   try {
     await connectToDatabase();
-    const { id } = await req.json();
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+
     await Whitelist.findByIdAndDelete(id);
     return NextResponse.json({ message: 'Entry deleted' }, { status: 200 });
   } catch (error) {

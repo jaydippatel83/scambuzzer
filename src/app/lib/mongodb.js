@@ -8,12 +8,8 @@ if (!MONGODB_URI) {
 
 let cached = global.mongoose;
 
-if (!cached.promise) {
-  cached.promise = mongoose.connect(MONGODB_URI,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    dbName: 'scambuzzer'
-  }).then((mongoose) => mongoose);
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
 }
 
 async function connectToDatabase() {
