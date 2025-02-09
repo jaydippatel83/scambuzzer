@@ -36,6 +36,12 @@ If the reported entry is not a false positive and has not been flagged already, 
 **Flow** -  Best Flow Plugin to existing AI Agent Framework: Same like coinbase, here we ElizaOS plugin that will check scam contracts of the Flow ecosystem and will help ai agents and end users to stay away from those contracts, stop them from interacting with any of exploited smart contracts by scammers. 
 
 **Base:** Commando Agent token by ScamBuzzer on base. The community can submit scam URLs, and contract addresses to SB and earn coins as per the condition that 1) the Scam should be valid and not a false positive 2) It should be a new scam which should be already in SB scam record database. 
+
+**Base Deployment => 0x5968947982898B6c34107F1afeb0E2199f826B27**
+
+**Arbitrum => 0xD575275656649CbDFF98dE5efa5a6e5d2be2c7Fd**
+
+**Flow contract => 0xD575275656649CbDFF98dE5efa5a6e5d2be2c7Fd** 
   
 # Landing page
 ![Screenshot 2025-02-09 at 6 38 23 PM](https://github.com/user-attachments/assets/930d531a-e989-438e-b4f4-fdb5f53bc780)
