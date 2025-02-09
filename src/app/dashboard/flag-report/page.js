@@ -11,7 +11,7 @@ const FlagReport = () => {
   }, []);
   const fetchReports = async () => {
     try {
-      const res = await axios.get('/api/reports');
+      const res = await axios.get('https://scambuzzer-backend.onrender.com/api/reports');
       setReports(res.data);
     } catch (error) {
       console.error("Error fetching reports:", error);
@@ -33,7 +33,7 @@ const FlagReport = () => {
           </tr>
         </thead>
         <tbody>
-          {reports.map((report) => (
+          {reports.slice().reverse().map((report) => (
           <tr className="border-b border-green-500" key={report.id}>
             <td className="p-2">
               {new Date(report.createdAt).toLocaleString('en-GB', {

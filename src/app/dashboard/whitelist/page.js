@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 const Whitelist = () => {
     const [formData, setFormData] = useState({ xHandle: '', telegram: '', website: '', contractAddress: '' });
     const [entries, setEntries] = useState([]);
+    const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchEntries();
@@ -16,7 +17,7 @@ const Whitelist = () => {
 
   const fetchEntries = async () => { 
     try {
-        const res = await axios.get('/api/whitelist');
+        const res = await axios.get('https://scambuzzer-backend.onrender.com/api/whitelist');
         setEntries(res.data);
     } catch (error) {
         console.error("Error fetching entries:", error);
@@ -29,20 +30,23 @@ const Whitelist = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-        await axios.post('/api/whitelist', formData);
+        await axios.post('https://scambuzzer-backend.onrender.com/api/whitelist', formData);
         fetchEntries();
         setFormData({ xHandle: '', telegram: '', website: '', contractAddress: '' });
         toast.success('Entry added successfully');
     } catch (error) {
         console.error("Error submitting form:", error);
         toast.error('Error submitting form');
+    } finally {
+        setLoading(false);
     }
   };
 
   const handleDelete = async (id) => { 
     try {
-        await axios.post(`/api/whitelist/${id}`,{id});
+        await axios.post(`https://scambuzzer-backend.onrender.com/api/whitelist/${id}`,{id});
         fetchEntries();
         toast.success('Entry deleted successfully');
     } catch (error) {
@@ -70,11 +74,13 @@ const Whitelist = () => {
                             <label className="block mb-2">Contract Address</label>
                             <input  type="text" name="contractAddress" value={formData.contractAddress} onChange={handleChange}  className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500" />
 
-                            <button type="submit" className="w-full p-3 bg-green-600 text-black font-bold rounded">Submit</button>
+                            <button type="submit" className="w-full p-3 bg-green-600 text-black font-bold rounded" disabled={loading}>
+                                {loading ? <div className='loader'></div> : 'Submit'}
+                            </button>
                         </div>
                         </form>
                     </div> 
-                    <WhitelistList whitelist={entries} handleDelete={handleDelete} />
+                    {/* <WhitelistList whitelist={entries} handleDelete={handleDelete} /> */}
             </DashboardLayout>
         </Layout>
     );

@@ -10,9 +10,11 @@ const ReportContribute = () => {
   const [link, setLink] = useState('');
   const [type, setType] = useState('Phishing');
   const [targeting, setTargeting] = useState('X');
+  const [loading, setLoading] = useState(false);  
   const userData = generateUserData(user);
 
   const handleSubmit = async (e) => {
+    setLoading(true); 
     if (!link || !type || !targeting) {
         toast.error('Please fill in all fields');
         return;
@@ -29,7 +31,7 @@ const ReportContribute = () => {
     }
     e.preventDefault();
     try {
-        await axios.post('/api/reports', report);
+        await axios.post('https://scambuzzer-backend.onrender.com/api/reports', report);
         toast.success('Report added successfully');
         setLink('');
         setType('Phishing');
@@ -37,6 +39,8 @@ const ReportContribute = () => {
     } catch (error) {
         console.error("Error submitting form:", error); 
         toast.error('Error submitting form');
+    } finally {
+        setLoading(false);
     }
 };
 
@@ -93,9 +97,9 @@ const ReportContribute = () => {
 
           <button
             type="submit"
-            className="w-full py-2 bg-green-400 text-black font-bold rounded hover:bg-green-500 transition"
+            className="w-full py-2 bg-green-400 text-black font-bold rounded hover:bg-green-500 transition text-center mx-auto"
           >
-            Submit
+            {loading ? <div className='loader'></div> : 'Submit'}
           </button>
         </form>
   );
