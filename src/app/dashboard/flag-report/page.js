@@ -11,7 +11,7 @@ const FlagReport = () => {
   }, []);
   const fetchReports = async () => {
     try {
-      const res = await axios.get('/api/reports');
+      const res = await axios.get('https://scambuzzer-backend.onrender.com/api/reports');
       setReports(res.data);
     } catch (error) {
       console.error("Error fetching reports:", error);

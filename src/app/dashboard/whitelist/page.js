@@ -16,7 +16,7 @@ const Whitelist = () => {
 
   const fetchEntries = async () => { 
     try {
-        const res = await axios.get('/api/whitelist');
+        const res = await axios.get('https://scambuzzer-backend.onrender.com/api/whitelist');
         setEntries(res.data);
     } catch (error) {
         console.error("Error fetching entries:", error);
@@ -30,7 +30,7 @@ const Whitelist = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await axios.post('/api/whitelist', formData);
+        await axios.post('https://scambuzzer-backend.onrender.com/api/whitelist', formData);
         fetchEntries();
         setFormData({ xHandle: '', telegram: '', website: '', contractAddress: '' });
         toast.success('Entry added successfully');
@@ -42,7 +42,7 @@ const Whitelist = () => {
 
   const handleDelete = async (id) => { 
     try {
-        await axios.post(`/api/whitelist/${id}`,{id});
+        await axios.post(`https://scambuzzer-backend.onrender.com/api/whitelist/${id}`,{id});
         fetchEntries();
         toast.success('Entry deleted successfully');
     } catch (error) {
@@ -74,7 +74,7 @@ const Whitelist = () => {
                         </div>
                         </form>
                     </div> 
-                    <WhitelistList whitelist={entries} handleDelete={handleDelete} />
+                    {/* <WhitelistList whitelist={entries} handleDelete={handleDelete} /> */}
             </DashboardLayout>
         </Layout>
     );

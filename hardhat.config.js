@@ -15,6 +15,11 @@ module.exports = {
         base: {
             url: process.env.NEXT_PUBLIC_RPC_URL, 
             accounts: [process.env.NEXT_PUBLIC_PRIVATE_KEY]
+        },
+        arbitrum: {
+            url: process.env.NEXT_PUBLIC_RPC_URL, 
+            accounts: [process.env.NEXT_PUBLIC_PRIVATE_KEY]
         }
     }
 };
+    
