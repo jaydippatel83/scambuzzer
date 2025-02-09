@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useSubscription } from '../../context/subscription'; 
 
 const InactiveSubs = () => {  
-    const { purchaseSubscription, checkSubscriptionStatus, loading } = useSubscription();
+    const { purchaseSubscription, loading } = useSubscription();
     const [selectedChain, setSelectedChain] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
 
@@ -13,8 +13,7 @@ const InactiveSubs = () => {
             toast.error('Please select a chain and payment method.');
             return;
         }
-        await purchaseSubscription();
-        await checkSubscriptionStatus();
+        await purchaseSubscription(selectedChain);
     };
  
     return (
@@ -32,9 +31,9 @@ const InactiveSubs = () => {
                             onChange={(e) => setSelectedChain(e.target.value)}
                         >
                             <option value="" disabled>Select chain</option>
-                            <option value="Ethereum">Ethereum</option>
-                            <option value="Binance Smart Chain">Binance Smart Chain</option>
-                            <option value="Polygon">Polygon</option>
+                            <option value="base">Base</option>
+                            <option value="flow">Flow</option>
+                            <option value="arbitrum">Arbitrum</option>
                         </select>
                     </div>
 
