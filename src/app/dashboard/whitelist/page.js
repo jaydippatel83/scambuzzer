@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 const Whitelist = () => {
     const [formData, setFormData] = useState({ xHandle: '', telegram: '', website: '', contractAddress: '' });
     const [entries, setEntries] = useState([]);
+    const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchEntries();
@@ -29,6 +30,7 @@ const Whitelist = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
         await axios.post('https://scambuzzer-backend.onrender.com/api/whitelist', formData);
         fetchEntries();
@@ -37,6 +39,8 @@ const Whitelist = () => {
     } catch (error) {
         console.error("Error submitting form:", error);
         toast.error('Error submitting form');
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -70,7 +74,9 @@ const Whitelist = () => {
                             <label className="block mb-2">Contract Address</label>
                             <input  type="text" name="contractAddress" value={formData.contractAddress} onChange={handleChange}  className="w-full p-2 bg-background border border-green-500 text-foreground rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500" />
 
-                            <button type="submit" className="w-full p-3 bg-green-600 text-black font-bold rounded">Submit</button>
+                            <button type="submit" className="w-full p-3 bg-green-600 text-black font-bold rounded" disabled={loading}>
+                                {loading ? <div className='loader'></div> : 'Submit'}
+                            </button>
                         </div>
                         </form>
                     </div> 

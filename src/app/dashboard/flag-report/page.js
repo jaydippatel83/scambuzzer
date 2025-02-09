@@ -33,7 +33,7 @@ const FlagReport = () => {
           </tr>
         </thead>
         <tbody>
-          {reports.map((report) => (
+          {reports.slice().reverse().map((report) => (
           <tr className="border-b border-green-500" key={report.id}>
             <td className="p-2">
               {new Date(report.createdAt).toLocaleString('en-GB', {

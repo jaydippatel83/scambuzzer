@@ -73,6 +73,7 @@ html {
     border-radius: 50%;
     width: 20px;
     height: 20px;
+    margin: 0 auto;
     animation: spin 1s linear infinite;
 }
 
