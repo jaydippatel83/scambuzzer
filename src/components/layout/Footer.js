@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer className="text-center text-foreground">
-      <p>&copy; 2025 Scambuzzer. All rights reserved.</p>
+      <p>Built with a relentless mission to safeguard the crypto industry from scams!</p>
     </footer>
   );
 };
