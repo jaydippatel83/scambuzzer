@@ -1,6 +1,7 @@
 "use client";
 
 import { usePrivy } from '@privy-io/react-auth';
+import axios from 'axios';
 import React, { useState } from 'react';
 
 
@@ -17,24 +18,20 @@ const ActiveScan = () => {
       setError("Please enter a wallet address.");
       return;
     }
-    
+
     setLoading(true);
     setError(null);
     setRiskResult(null);
-    
+
     try {
-      const response = await fetch('/api/transaction', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ address: walletAddress })
-      });
-      
+      const response = await axios.post('/api/transaction', { address: walletAddress, chainId: 84532 });
+
+      console.log(response, "re")
+
       if (!response.ok) {
         throw new Error("Risk assessment API error");
       }
-      
+
       const data = await response.json();
       setRiskResult(data);
     } catch (err) {
@@ -60,7 +57,7 @@ const ActiveScan = () => {
           <p>
             <span className="font-semibold">Logged in:</span> {`commando@${user?.twitter?.username}`}
           </p>
-         
+
         </div>
 
         {/* Input field for wallet address */}
