@@ -25,7 +25,6 @@ export default function Providers({ children }) {
             connectionOptions: 'smartWalletOnly',
           },
         },
-        embeddedWallets: { createOnLogin: 'users-without-wallets' },
         defaultChain: baseSepolia,
         supportedChains: [baseSepolia, flowTestnet, arbitrum, arbitrumSepolia],
       }}
