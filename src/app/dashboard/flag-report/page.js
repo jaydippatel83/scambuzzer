@@ -19,7 +19,7 @@ const FlagReport = () => {
 
   const fetchReports = async () => {
     try {
-      const res = await axios.get('http://localhost:4000/api/phishing');
+      const res = await axios.get('https://api.scambuzzer.com/api/phishing');
       console.log(res.data);
       setReports(res.data);
     } catch (error) {
@@ -30,7 +30,7 @@ const FlagReport = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:4000/api/phishing', formData);
+      await axios.post('https://api.scambuzzer.com/api/phishing', formData);
       setFormData({
         url: '',
         scamType: '',
