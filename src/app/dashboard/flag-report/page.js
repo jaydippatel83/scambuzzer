@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../../components/layout/Layout';
 import DashboardLayout from '../../../components/DashboardLayout'; 
 import axios from 'axios';
+import toast from 'react-hot-toast';
+
 
 const FlagReport = () => {
   const [reports, setReports] = useState([]);
@@ -10,8 +12,38 @@ const FlagReport = () => {
     url: '',
     scamType: '',
     targetPlatform: '',
-    description: ''
+    description: '',
+    contractAddress: '',
+    chainId: '',
+    contractType: '',
+    contractVerified: false
   });
+
+  // Chain options similar to whitelist
+  const chainOptions = [
+    { id: 1, name: 'Ethereum Mainnet' },
+    { id: 56, name: 'Binance Smart Chain' },
+    { id: 137, name: 'Polygon' },
+    { id: 42161, name: 'Arbitrum' },
+    { id: 10, name: 'Optimism' },
+  ];
+
+  // Contract type options
+  const contractTypes = ['token', 'nft', "dex", 'other'];
+
+  // Add scam type options
+  const scamTypes = [
+    'phishing',
+    'fake_token',
+    'honeypot',
+    'rugpull',
+    'ponzi',
+    'fake_airdrop',
+    'fake_marketplace',
+    'impersonation',
+    'malware',
+    'other'
+  ];
 
   useEffect(() => {
     fetchReports();
@@ -35,8 +67,13 @@ const FlagReport = () => {
         url: '',
         scamType: '',
         targetPlatform: '',
-        description: ''
+        description: '',
+        contractAddress: '',
+        chainId: '',
+        contractType: '',
+        contractVerified: false
       });
+      toast.success('Report submitted successfully');
       // Refresh reports list
       fetchReports();
     } catch (error) {
@@ -75,14 +112,21 @@ const FlagReport = () => {
               
               <div>
                 <label className="block mb-2">Scam Type:</label>
-                <input
-                  type="text"
+                <select
                   name="scamType"
                   value={formData.scamType}
                   onChange={handleChange}
                   className="w-full p-2 border border-green-500 rounded-md bg-transparent"
-                  required
-                />
+                >
+                  <option value="">Select Scam Type</option>
+                  {scamTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type.split('_').map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                      ).join(' ')}
+                    </option>
+                  ))}
+                </select>
               </div>
               
               <div>
@@ -93,7 +137,6 @@ const FlagReport = () => {
                   value={formData.targetPlatform}
                   onChange={handleChange}
                   className="w-full p-2 border border-green-500 rounded-md bg-transparent"
-                  required
                 />
               </div>
               
@@ -105,10 +148,70 @@ const FlagReport = () => {
                   onChange={handleChange}
                   className="w-full p-2 border border-green-500 rounded-md bg-transparent"
                   rows="4"
-                  required
+                />
+              </div>
+
+              {/* New Contract Fields */}
+              <div>
+                <label className="block mb-2">Contract Address:</label>
+                <input
+                  type="text"
+                  name="contractAddress"
+                  value={formData.contractAddress}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-green-500 rounded-md bg-transparent"
+                  placeholder="0x..."
                 />
               </div>
               
+              <div>
+                <label className="block mb-2">Chain:</label>
+                <select
+                  name="chainId"
+                  value={formData.chainId}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-green-500 rounded-md bg-transparent"
+                >
+                  <option value="">Select Chain</option>
+                  {chainOptions.map((chain) => (
+                    <option key={chain.id} value={chain.id}>
+                      {chain.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label className="block mb-2">Contract Type:</label>
+                <select
+                  name="contractType"
+                  value={formData.contractType}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-green-500 rounded-md bg-transparent"
+                >
+                  <option value="">Select Type</option>
+                  {contractTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  name="contractVerified"
+                  checked={formData.contractVerified}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    contractVerified: e.target.checked
+                  })}
+                  className="border border-green-500 rounded bg-transparent"
+                />
+                <label>Contract Verified</label>
+              </div>
+
               <button
                 type="submit"
                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
