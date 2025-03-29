@@ -33,6 +33,7 @@ const FlagReport = () => {
 
   // Add scam type options
   const scamTypes = [
+    'Scam',
     'phishing',
     'fake_token',
     'honeypot',
